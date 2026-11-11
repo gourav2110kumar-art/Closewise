@@ -1,0 +1,23 @@
+# One-click deploy on Render: New → Blueprint → pick this repo.
+services:
+  - type: web
+    name: closewise
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DEMO_MCP_KEY
+        value: cw_demo_volopay2026
+      - key: DATABASE_URL
+        fromDatabase:
+          name: closewise-db
+          property: connectionString
+databases:
+  - name: closewise-db
+    plan: free
