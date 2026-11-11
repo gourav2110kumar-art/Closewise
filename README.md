@@ -10,11 +10,11 @@ Closewise is a proposal tool for freelancers, studios and agencies. You ask your
 
 | Part | File |
 |---|---|
-| MCP server (5 tools: create, list, get, update, publish) | `src/mcp.js` |
-| Web app: dashboard, editor, connect page | `src/server.js`, `src/views.js`, `public/editor.js` |
-| Client page: view, accept & sign, decline, PDF | `/p/:slug` in `src/server.js` |
-| Storage: Postgres in production, JSON file locally | `src/store.js` |
-| Demo account + example proposals | `src/seed.js` |
+| MCP server (5 tools: create, list, get, update, publish) | `mcp.js` |
+| Web app: dashboard, editor, connect page | `server.js`, `views.js`, `editor.js` |
+| Client page: view, accept & sign, decline, PDF | `/p/:slug` in `server.js` |
+| Storage: Postgres in production, JSON file locally | `store.js` |
+| Demo account + example proposals | `seed.js` |
 
 ## Run locally
 
@@ -26,7 +26,7 @@ Demo login: `demo@closewise.app` / `demo1234`
 
 ## Deploy on Render (free, about 10 minutes)
 
-1. Create a new GitHub repository and upload all of these files (everything except `node_modules`).
+1. Create a new GitHub repository and upload all of these files.
 2. On render.com, go to **New → Blueprint** and pick the repository. Render reads `render.yaml` and creates the web service and a free Postgres database.
 3. Click **Apply** and wait for the deploy to finish. Your app will be at `https://closewise-xxxx.onrender.com`.
 4. Open it and log in with the demo account.

@@ -2,10 +2,10 @@
   "name": "closewise",
   "version": "1.0.0",
   "description": "Proposals that close themselves - drafted by your Claude, hosted by Closewise",
-  "main": "src/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "author": "",
   "license": "ISC",
