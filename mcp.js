@@ -113,6 +113,28 @@ export function mountMcp(app, baseUrl) {
   const handler = async (req, res) => {
     const user = await userByKey(req.params.key);
     if (!user) return res.status(401).json({ jsonrpc: '2.0', error: { code: -32001, message: 'Invalid Closewise connector key. Copy your link from Closewise → Connect Claude.' }, id: null });
+    if (req.method === 'GET' && (req.headers.accept || '').includes('text/html')) {
+      // Someone opened the connector link in a browser: show how to use it.
+      const url = `${baseUrl(req)}/mcp/${req.params.key}`;
+      return res.send(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Closewise connector</title><link rel="stylesheet" href="/app.css"></head><body>
+<div class="wrap" style="max-width:720px;padding:50px 24px">
+  <a class="brand" href="/" style="margin-bottom:24px"><i></i>Closewise</a>
+  <div class="card" style="margin-top:20px">
+    <div class="ok">This connector is working ✓</div>
+    <h2>This link is for Claude, not for a browser</h2>
+    <p class="muted">It's the MCP connector that lets your Claude create and manage proposals in Closewise. Add it to Claude like this:</p>
+    <ol>
+      <li>In Claude, open <b>Customize → Connectors → Add → Custom connector</b>.</li>
+      <li>Name: <code>Closewise</code>. URL: paste the link below.</li>
+      <li>Authentication: <b>No sign-in</b>, then click <b>Add</b>.</li>
+      <li>In a new chat, turn on Closewise and ask: <i>"Draft a proposal for a 5-page website for a bakery, ₹1.5 lakh plus GST, 3 weeks. Save it to Closewise."</i></li>
+    </ol>
+    <label>Connector URL</label>
+    <div class="copybox"><input id="u" readonly value="${url}"><button class="btn" onclick="navigator.clipboard.writeText(document.getElementById('u').value);this.textContent='Copied'">Copy</button></div>
+    <p style="margin-top:20px"><a class="btn go" href="/login?demo=1">Open the Closewise app</a></p>
+  </div>
+</div></body></html>`);
+    }
     if (req.method !== 'POST') return res.status(405).set('Allow', 'POST').json({ jsonrpc: '2.0', error: { code: -32000, message: 'Method not allowed.' }, id: null });
     try {
       const server = buildServer(user, baseUrl(req));
